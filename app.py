@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from multion.client import MultiOn
 from fastapi import FastAPI
 from pydantic import BaseModel
+from groq import Groq
     
 load_dotenv()
 
