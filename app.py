@@ -12,7 +12,7 @@ app = FastAPI()
 api_key = os.getenv("MULTI_ON_API_KEY")
 client = MultiOn(api_key=api_key)
 
-groq_api = Groq(
+client = Groq(
     api_key=os.environ.get("GROQ_API_KEY"),
     #api_key = groq_api_key,
 )
@@ -52,17 +52,32 @@ def orchestrate_agents(uid: str, data: dict):
     {transcript_text}
     '''
 
-    chat_completion = groq_api.chat.completions.create(
+    prompt_2= f'''
+    Extract Claims from this transcript that should be checked for factual inaccuracies.
+    
+    Conversation Transcript:
+    
+    {transcript_text}
+
+    Give your response in the format:
+    
+    '''
+
+    chat_completion = client.chat.completions.create(
         messages=[
             {
                 "role": "user",
-                "content": prompt,
+                "content": prompt_2,
             }
         ],
         model="llama3-8b-8192",
     )
 
     claims = chat_completion.choices[0].message.content
+    print(claims)
+
+    breakpoint()
+
 
     request = CommandRequest(command=claims)
 
