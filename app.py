@@ -12,7 +12,7 @@ app = FastAPI()
 api_key = os.getenv("MULTI_ON_API_KEY")
 client = MultiOn(api_key=api_key)
 
-client = Groq(
+groq_api = Groq(
     api_key=os.environ.get("GROQ_API_KEY"),
     #api_key = groq_api_key,
 )
@@ -63,7 +63,7 @@ def orchestrate_agents(uid: str, data: dict):
     
     '''
 
-    chat_completion = client.chat.completions.create(
+    chat_completion = groq_api.chat.completions.create(
         messages=[
             {
                 "role": "user",
@@ -74,16 +74,41 @@ def orchestrate_agents(uid: str, data: dict):
     )
 
     claims = chat_completion.choices[0].message.content
-    print(claims)
 
-    breakpoint()
+    chat_completion = groq_api.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="llama3-8b-8192",
+    )
 
+    biases = chat_completion.choices[0].message.content
 
     request = CommandRequest(command=claims)
 
-    response = execute_command(request)
+    fact_response = execute_command(request)
 
-    return response
+    prompt_3 = f'''
+    You have received information about a discussion with these cognitive flaws {biases} and these factual corrections {fact_response}. 
+    Parse and summarize the information to be helpful to the speakers about the flows (or lack of it) in their discussion.
+    '''
+    
+    chat_completion = groq_api.chat.completions.create(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt_3,
+            }
+        ],
+        model="llama3-8b-8192",
+    )
+
+    final_response = chat_completion.choices[0].message.content
+
+    return final_response
 
 if __name__ == "__main__":
     import uvicorn
