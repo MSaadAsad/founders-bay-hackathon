@@ -59,8 +59,8 @@ def orchestrate_agents(uid: str, data: dict):
     
     {transcript_text}
 
-    Give your response in the format:
-    
+    Give your response in the format, Just the claim and nothing else:
+    Claim
     '''
 
     chat_completion = groq_api.chat.completions.create(
