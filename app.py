@@ -12,7 +12,7 @@ app = FastAPI()
 api_key = os.getenv("MULTI_ON_API_KEY")
 client = MultiOn(api_key=api_key)
 
-client = Groq(
+groq_api = Groq(
     api_key=os.environ.get("GROQ_API_KEY"),
     #api_key = groq_api_key,
 )
@@ -52,7 +52,7 @@ def orchestrate_agents(uid: str, data: dict):
     {transcript_text}
     '''
 
-    chat_completion = client.chat.completions.create(
+    chat_completion = groq_api.chat.completions.create(
         messages=[
             {
                 "role": "user",
