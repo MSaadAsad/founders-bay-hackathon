@@ -1,0 +1,18 @@
+{
+  "id": "yappinator-3000",
+  "name": "Yappinator 3000",
+  "author": "@wisdomifode",
+  "description": "Detects and corrects logical fallacies, false news, cognitive biases",
+  "image": "/assets/plugin_images/notion-crm.png",
+  "prompt": "",
+  "memories": false,
+  "chat": false,
+  "capabilities": [
+    "external_integration"
+  ],
+  "external_integration": {
+    "triggers_on": "transcript_processed",
+    "webhook_url": "https://josancamon19--plugins-examples-plugins-app.modal.run/notion-crm",
+    "setup_instructions_file_path": "/assets/external_plugins_instructions/notion-conversations-crm.md"
+  }
+}
