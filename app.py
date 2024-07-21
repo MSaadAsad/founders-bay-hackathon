@@ -34,13 +34,7 @@ class CommandRequest(BaseModel):
 def execute_command(request: CommandRequest):
     try:
 
-        client.sessions.create(
-            url="www.google.com", agent_id=request.agent_id
-        )
-        response = client.browse(cmd=request.command, agent_id=request.agent_id)
-        client.sessions.close(
-        session_id=response.session_id,
-        )
+        response = client.browse(cmd="Fact check this claim: "+request.command, agent_id=request.agent_id)
         return {"response": response}
     except Exception as e:
         return {"error": str(e)}
