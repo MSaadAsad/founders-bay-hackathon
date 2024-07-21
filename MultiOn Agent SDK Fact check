@@ -1,0 +1,34 @@
+# Step 1: Ask the user for a claim they want to fact-check
+ask "Please provide the claim you want to fact-check"
+
+# Step 2: Find recent news about the user's chosen topic on Google
+do "go to https://www.google.com/"
+do "type {{user_input}} into the search field"
+do "click the search button"
+
+# Step 3: Navigate to the news section
+do "click the 'News' tab"
+
+# Step 4: Verify that news results are displayed
+if verify "the news results are displayed":
+    # Step 5: Select the first credible news article
+    do "click the first news article"
+    if verify "the news article page has loaded":
+
+        # Step 6: Extract the relevant fact-checking information
+        do "extract the fact-checking information"
+
+        # Step 7: Memorize key information
+        do "check if our initial inputted fact is correct or not based on the extracted fact-checking information"
+        
+        # Step 8: Return the extracted information to the user
+        do "return if the fact is correct or incorrect"
+
+        #Step 9: Returns the rationale
+        do "return why the fact is correct or incorrect based on the news article's information"
+        
+          
+else:
+    # Step 10: Notify the user that the claim cannot be verified
+    do "log an error message: 'No news results found. The claim cannot be verified.'"
+    ask "The claim cannot be verified based on the information available. Please try another claim or topic."
