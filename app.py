@@ -4,6 +4,21 @@ from multion.client import MultiOn
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+"""
+Prompt:
+
+Analyze the following conversation transcript for both formal and informal logical fallacies. For each fallacy found, provide the following information:
+
+Type of Fallacy: Specify the fallacy (e.g., Ad Hominem, Straw Man, etc.).
+Excerpt: Include the exact part of the transcript where the fallacy occurs.
+Explanation: Explain how the excerpt exemplifies the fallacy.
+Format the results in a clear, readable manner with bullet points and headings.
+
+Conversation Transcript:
+
+[Insert transcript here]
+"""
+    
 load_dotenv()
 
 app = FastAPI()
