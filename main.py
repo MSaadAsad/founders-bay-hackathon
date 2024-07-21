@@ -23,6 +23,16 @@ def execute_command(request: CommandRequest):
     except Exception as e:
         return {"error": str(e)}
 
+@app.post('/examine-convo')
+def orchestrate_agents(uid: str, data: dict):
+    session_id = data['session_id']
+    segments = data['segments']
+
+    transcript_text = segments['text']
+    speaker = segments['speaker']
+    speaker_id = segments['speaker_id']
+    is_user = segments['is_user']
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
