@@ -1,24 +1,27 @@
+import os
+from dotenv import load_dotenv
+from multion.client import MultiOn
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+load_dotenv()
+
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: bool = None
+api_key = os.getenv("MULTI_ON_API_KEY")
+client = MultiOn(api_key=api_key)
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+class CommandRequest(BaseModel):
+    command: str
+    agent_id: str = "c3b9f6bf"
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "q": q}
-
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    return {"item_name": item.name, "item_id": item_id}
+@app.post("/")
+def execute_command(request: CommandRequest):
+    try:
+        response = client.browse(cmd=request.command, agent_id=request.agent_id)
+        return {"response": response}
+    except Exception as e:
+        return {"error": str(e)}
 
 if __name__ == "__main__":
     import uvicorn
