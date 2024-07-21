@@ -13,7 +13,7 @@ client = MultiOn(api_key=api_key)
 
 class CommandRequest(BaseModel):
     command: str
-    agent_id: str = "c3b9f6bf"
+    agent_id: str = "c9a5d7b0"
 
 @app.post("/")
 def execute_command(request: CommandRequest):
@@ -32,6 +32,12 @@ def orchestrate_agents(uid: str, data: dict):
     speaker = segments['speaker']
     speaker_id = segments['speaker_id']
     is_user = segments['is_user']
+
+    request = CommandRequest(command=transcript_text)
+
+    response = execute_command(request)
+
+    return response
 
 if __name__ == "__main__":
     import uvicorn
