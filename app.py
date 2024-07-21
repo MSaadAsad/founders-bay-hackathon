@@ -19,7 +19,7 @@ groq_api = Groq(
 
 class CommandRequest(BaseModel):
     command: str
-    agent_id: str = "e5f447e3"
+    agent_id: str = "2bb7072a"
 
 @app.post("/")
 def execute_command(request: CommandRequest):
